@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2: Dialogue - Speaking Russia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a2a3a;
+            --accent-red: #ff4757;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+        }
+
+        /* --- Шапка и Таймер --- */
+        .page-header {
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        
+        .back-btn:hover { opacity: 0.8; }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: white;
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 10px;
+            min-width: 85px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .pause-btn, .restart-btn {
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
+
+        .pause-btn { background: #f39c12; }
+        .restart-btn { background: #7f8c8d; }
+
+        /* --- Основной контент --- */
+        .content-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .task-block {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .topic-header {
+            color: var(--accent-red);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+
+        .project-theme {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        /* --- Изображение --- */
+        .ad-image-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ad-image-container img {
+            max-width: 100%;
+            height: auto;
+            max-height: 350px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #ecf0f1;
+        }
+
+        /* --- Текст задания --- */
+        .task-text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* --- Списки --- */
+        .points-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #fdfdfd;
+            border: 1px dashed #d1d8e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .points-list li {
+            padding: 8px 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+        }
+
+        .points-list li:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+
+        .points-list li::before {
+            content: "→";
+            margin-right: 15px;
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* --- Кнопка и блок ответов --- */
+        .toggle-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover { background: #e9ecef; border-color: #dee2e6; transform: translateY(-2px); }
+        .toggle-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        .answers-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+            background: #f1f9f1;
+            border-radius: 12px;
+            margin-top: 0;
+            padding: 0 20px;
+            border-left: 5px solid #2ecc71;
+            line-height: 1.8;
+            color: #27ae60;
+        }
+
+        .answers-content.show { max-height: 500px; padding: 20px; margin-top: 15px; }
+
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; gap: 10px; text-align: center; }
+            .timer-controls { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .task-block { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div style="font-weight: 700; letter-spacing: 1px;">ЗАДАНИЕ 2: DIALOGUE</div>
+        <div class="timer-controls">
+            <button class="timer-btn" id="start-btn" onclick="initTimer(90)">⏱ Старт (1:30)</button>
+            <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Пауза</button>
+            <button class="restart-btn" id="restart-btn" onclick="initTimer(90)">🔄 Рестарт</button>
+            <div class="timer-display" id="timer">01:30</div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        
+        <div class="task-block">
+            <div class="topic-header">1. Sightseeing in Russia</div>
+            <div class="project-theme">Visiting the Golden Ring</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/1.jpg" alt="Golden Ring Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering visiting the Golden Ring. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>duration of the tour</li>
+                <li>transport</li>
+                <li>group size</li>
+                <li>discounts for students</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. How long does the tour last?<br>
+                2. What kind of transport is provided?<br>
+                3. How many people are there in the group? (Или: What is the group size?)<br>
+                4. Are there any discounts for students?
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">2. Famous people of Russia</div>
+            <div class="project-theme">Pushkin Museum Excursion</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/2.jpg" alt="Museum Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering going on a museum excursion. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>opening hours</li>
+                <li>ticket price</li>
+                <li>audio guide availability</li>
+                <li>taking photos</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. What are the opening hours of the museum?<br>
+                2. How much does a ticket cost?<br>
+                3. Is an audio guide available?<br>
+                4. Can I take photos inside the museum?
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">3. Russian holidays and traditions</div>
+            <div class="project-theme">Maslenitsa Festival</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/3.jpg" alt="Festival Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering visiting a local festival. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>date of the festival</li>
+                <li>activities available</li>
+                <li>food options</li>
+                <li>entrance fee</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. When does the festival take place? (Или: What is the date of the festival?)<br>
+                2. What activities are available?<br>
+                3. What food options do you offer?<br>
+                4. Is there an entrance fee?
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">4. Nature and environmental issues</div>
+            <div class="project-theme">Eco-tour in Russia</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/4.jpg" alt="Eco-tour Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering taking an eco-tour. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>destination</li>
+                <li>duration of the tour</li>
+                <li>equipment needed</li>
+                <li>minimum age</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. What is the destination of the tour?<br>
+                2. How long does the tour last?<br>
+                3. Do I need any special equipment?<br>
+                4. What is the minimum age for participants?
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">5. Life in the city and countryside</div>
+            <div class="project-theme">Renting a Country House</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/5.jpg" alt="Country House Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering renting a country house. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>location</li>
+                <li>price per night</li>
+                <li>number of bedrooms</li>
+                <li>Wi-Fi availability</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. Where is the house located?<br>
+                2. How much does it cost per night?<br>
+                3. How many bedrooms are there in the house?<br>
+                4. Is Wi-Fi available?
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">6. Science and space exploration</div>
+            <div class="project-theme">The Planetarium</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/6.jpg" alt="Planetarium Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering visiting the Planetarium. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>online booking</li>
+                <li>ticket price</li>
+                <li>film duration</li>
+                <li>photography permission</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. Can I book tickets online? (Или: Is online booking available?)<br>
+                2. What is the ticket price? (Или: How much does the ticket cost?)<br>
+                3. How long does the film last? (Или: What is the film duration?)<br>
+                4. Is photography allowed during the show? (Или: Can I take photos during the show?)
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">7. Schooling in Russia</div>
+            <div class="project-theme">English Courses</div>
+            
+            <div class="ad-image-container">
+                <img src="images/ts2/7.jpg" alt="English Courses Advertisement">
+            </div>
+
+            <div class="task-text">
+                Study the advertisement. You are considering taking an English course. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:
+            </div>
+            
+            <ul class="points-list">
+                <li>placement test</li>
+                <li>number of students in a group</li>
+                <li>course duration</li>
+                <li>evening classes</li>
+            </ul>
+
+            <button class="toggle-btn" onclick="toggleAns(this)">
+                <span class="btn-icon">👁</span> <span class="btn-text">Показать ответы</span>
+            </button>
+            <div class="answers-content">
+                1. Do I need to take a placement test? (Или: Is a placement test required?)<br>
+                2. How many students are there in a group?<br>
+                3. How long is the course? (Или: What is the course duration?)<br>
+                4. Do you have evening classes? (Или: Are evening classes available?)
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        let countdown;
+        let timeLeft;
+        let isPaused = false;
+
+        function initTimer(seconds) {
+            clearInterval(countdown);
+            timeLeft = seconds;
+            isPaused = false;
+            
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('pause-btn').style.display = 'block';
+            document.getElementById('pause-btn').textContent = '⏸ Пауза';
+            document.getElementById('pause-btn').style.background = '#f39c12';
+            document.getElementById('restart-btn').style.display = 'block';
+            
+            updateDisplay(timeLeft);
+            startCounting();
+        }
+
+        function startCounting() {
+            const display = document.getElementById('timer');
+            display.style.color = "var(--primary-color)";
+            
+            countdown = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        display.textContent = "00:00";
+                        display.style.color = "red";
+                        return;
+                    }
+                    updateDisplay(timeLeft);
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(s) {
+            const mins = Math.floor(s / 60);
+            const secs = s % 60;
+            document.getElementById('timer').textContent = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (isPaused) {
+                btn.textContent = '▶ Продолжить';
+                btn.style.background = '#2ecc71';
+            } else {
+                btn.textContent = '⏸ Пауза';
+                btn.style.background = '#f39c12';
+            }
+        }
+
+        function toggleAns(btn) {
+            const content = btn.nextElementSibling;
+            const textSpan = btn.querySelector('.btn-text');
+            const iconSpan = btn.querySelector('.btn-icon');
+            
+            btn.classList.toggle('active');
+            content.classList.toggle('show');
+            
+            if (content.classList.contains('show')) {
+                textSpan.textContent = 'Скрыть ответы';
+                iconSpan.textContent = '🙈';
+            } else {
+                textSpan.textContent = 'Показать ответы';
+                iconSpan.textContent = '👁';
+            }
+        }
+    </script>
+</body>
+</html>

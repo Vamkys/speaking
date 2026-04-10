@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 1 - Speaking Russia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .timer-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .timer-btn:hover { background: #c0392b; }
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: white;
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .instruction-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #34495e;
+        }
+
+        .task-block {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .topic-header {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .text-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 10px;
+        }
+
+        .reading-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div style="font-weight: 700; font-size: 1.2rem;">Задание 1: Чтение текста</div>
+        <div class="timer-controls">
+            <button class="timer-btn" onclick="startTimer(90)">⏱ 1.5 мин (Старт)</button>
+            <div class="timer-display" id="task-timer">01:30</div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        
+        <div class="instruction-box">
+            <strong>Task 1.</strong> Imagine that you are preparing a project with your friend. You have found some interesting material for the presentation and you want to read this text to your friend. You have 1.5 minutes to read the text silently, then be ready to read it out aloud. You will not have more than 1.5 minutes to read it.
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">1. Sightseeing in Russia</div>
+            <div class="text-title">The Golden Ring</div>
+            <div class="reading-text">
+                Russia is famous for its historical routes, and the Golden Ring is perhaps the most celebrated one. This ring of ancient cities north-east of Moscow offers a unique glimpse into the country's medieval past. Each city, like Suzdal or Vladimir, features stunning white-stone churches and golden-domed cathedrals that date back centuries. These locations are not just open-air museums; they are living parts of Russian history where traditional crafts are still practiced. Tourists can enjoy the quiet atmosphere of the countryside while admiring the intricate architecture. Visiting the Golden Ring is a perfect way to escape the busy life of the capital and learn about the roots of Russian culture. Today, these cities are protected as World Heritage sites, ensuring that their beauty and historical significance will be preserved for future generations of travelers from all over the world.
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">2. Famous People of Russia</div>
+            <div class="text-title">Alexander Pushkin</div>
+            <div class="reading-text">
+                Alexander Pushkin is widely considered the greatest Russian poet and the founder of modern Russian literature. Born in 1799, he revolutionized the Russian language by mixing the formal grammar of the time with the natural speech of the people. His works, including "Eugene Onegin" and numerous fairy tales, are studied by every schoolchild in the country. Pushkin’s influence is so great that his birthday is now celebrated as Russian Language Day. He had a remarkable ability to express deep human emotions through simple yet beautiful verses. Although his life was tragically short, he left behind a massive literary heritage that continues to inspire writers and artists worldwide. To Russians, Pushkin is more than just a writer; he is a symbol of national pride and cultural identity.
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">3. Russian Holidays and Traditions</div>
+            <div class="text-title">Maslenitsa</div>
+            <div class="reading-text">
+                Maslenitsa is one of the oldest and most cheerful Russian traditions, marking the end of winter and the arrival of spring. This holiday lasts for a whole week and is filled with various activities, such as sledding and outdoor festivals. The most important symbol of Maslenitsa is the pancake, or "blin," which represents the sun because of its round shape and golden color. People cook and eat large quantities of pancakes with different fillings, inviting friends and relatives to join the feast. The week ends with the burning of a straw figure, which symbolizes the departure of the cold season. It is a time for forgiveness and joy before the beginning of the Great Lent. Even today, Maslenitsa remains a popular celebration that brings families and communities together across the country.
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">4. Nature and Environmental Issues in Russia</div>
+            <div class="text-title">Protecting the Russian Forests</div>
+            <div class="reading-text">
+                Russia possesses the largest forest reserves in the world, often referred to as the "lungs of Europe." These vast territories of taiga play a crucial role in regulating the global climate by absorbing carbon dioxide. However, these forests face several environmental threats, including illegal logging and forest fires during the hot summer months. Protecting this natural wealth has become a top priority for the government and various environmental organizations. New laws have been introduced to ensure sustainable forest management and to restore areas damaged by fires. Public awareness campaigns also encourage citizens to behave responsibly when spending time in nature. Preserving the forests is not only important for the economy but also for protecting the habitats of endangered animals like the Siberian tiger.
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">5. Life in the City and Countryside</div>
+            <div class="text-title">The Rhythm of Urban Life</div>
+            <div class="reading-text">
+                Living in a large Russian city like Moscow or Novosibirsk offers many advantages but also presents certain challenges. On the one hand, urban residents have access to the best educational institutions, modern healthcare, and a wide variety of cultural events. The public transport system, including the famous metro, allows people to move quickly between different districts. On the other hand, the fast pace of life and constant noise can be quite stressful. Many city dwellers suffer from air pollution and a lack of green spaces near their homes. Despite these drawbacks, young people continue to move to big cities in search of career opportunities and a vibrant social life. Urban planning is now focusing on creating more parks and pedestrian zones to make city life more comfortable for everyone.
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">6. Science and Space Exploration</div>
+            <div class="text-title">The First Flight to the Stars</div>
+            <div class="reading-text">
+                The history of space exploration changed forever on April 12, 1961, when Yuri Gagarin became the first human to travel into outer space. His spacecraft, Vostok 1, completed a single orbit around the Earth, lasting only 108 minutes. This historic mission proved that humans could survive in weightlessness and paved the way for future lunar missions and space stations. Gagarin’s courage and his famous smile made him an international hero and a symbol of scientific progress. Since then, Russia has continued to play a leading role in space research, developing reliable rockets and maintaining the International Space Station. Every year, Cosmonautics Day is celebrated to honor the scientists and pilots who made space travel possible. The legacy of these pioneers continues to inspire new generations to look at the stars and dream of new discoveries.
+            </div>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">7. Schooling in Russia</div>
+            <div class="text-title">The Russian School System</div>
+            <div class="reading-text">
+                The school system in Russia is designed to provide students with a broad and solid foundation in various academic disciplines. Primary education begins at the age of six or seven and lasts for four years, followed by middle and senior school. The curriculum includes a wide range of subjects, from mathematics and literature to foreign languages and computer science. One of the unique features of Russian schools is the emphasis on classical literature, which helps students develop critical thinking and cultural awareness. At the end of their studies, students must take the Unified State Exam to enter universities. Recent reforms have introduced digital technologies into classrooms, allowing for more interactive and personalized learning. Despite these changes, the traditional role of the teacher as a mentor remains highly respected in Russian society.
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        let countdown;
+        const timerDisplay = document.getElementById('task-timer');
+
+        function startTimer(seconds) {
+            clearInterval(countdown); // Сбрасываем предыдущий таймер, если он был
+            
+            const now = Date.now();
+            const then = now + seconds * 1000;
+            displayTimeLeft(seconds);
+
+            countdown = setInterval(() => {
+                const secondsLeft = Math.round((then - Date.now()) / 1000);
+                
+                if(secondsLeft < 0) {
+                    clearInterval(countdown);
+                    timerDisplay.style.color = "red";
+                    alert("Время вышло!");
+                    return;
+                }
+                
+                displayTimeLeft(secondsLeft);
+            }, 1000);
+        }
+
+        function displayTimeLeft(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainderSeconds = seconds % 60;
+            const display = `${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+            timerDisplay.textContent = display;
+            timerDisplay.style.color = "var(--primary-color)"; // Возвращаем обычный цвет
+        }
+    </script>
+</body>
+</html>

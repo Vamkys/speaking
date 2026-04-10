@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 3: Russian Holidays and Traditions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --header-bg: #273443;
+            --bg-color: #f4f6f8;
+            --text-main: #2c3e50;
+            --btn-green: #2ecc71;
+            --btn-red: #e74c3c;
+            --btn-grey: #95a5a6;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            padding-top: 70px;
+        }
+
+        .page-header {
+            background-color: var(--header-bg);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .header-title {
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-box {
+            background: white;
+            color: var(--header-bg);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .timer-btn {
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .btn-green { background-color: var(--btn-green); }
+        .btn-red { background-color: var(--btn-red); }
+        .btn-grey { background-color: var(--btn-grey); }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .task-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            color: var(--header-bg);
+        }
+
+        .task-instruction {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .reading-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .img-container { margin-bottom: 20px; }
+        .img-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .dual-images {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .dual-images img {
+            width: 50%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        audio { width: 100%; margin-bottom: 20px; }
+
+        .spoiler-btn {
+            background: var(--header-bg);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .spoiler-content {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid var(--btn-green);
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .spoiler-content.active { display: block; }
+
+        ul { line-height: 1.8; }
+
+        .qa-block { margin-bottom: 20px; }
+        .question { font-weight: 700; color: #2980b9; }
+        .answer { margin-top: 5px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div class="header-title">TOPIC 3: RUSSIAN HOLIDAYS AND TRADITIONS</div>
+        <div class="timer-container">
+            <button class="timer-btn btn-green" onclick="startTimer(90)">1:30</button>
+            <button class="timer-btn btn-green" onclick="startTimer(40)">0:40</button>
+            <button class="timer-btn btn-red" onclick="startTimer(150)">2:30</button>
+            <div class="timer-box" id="time-display">00:00</div>
+            <button class="timer-btn btn-grey" onclick="resetTimer()">СБРОС</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="task-section">
+            <h2>Task 1. Reading aloud</h2>
+            <div class="reading-text">
+                Maslenitsa is one of the oldest and most cheerful Russian traditions, marking the end of winter and the arrival of spring. This holiday lasts for a whole week and is filled with various activities, such as sledding and outdoor festivals. The most important symbol of Maslenitsa is the pancake, or "blin," which represents the sun because of its round shape and golden color. People cook and eat large quantities of pancakes with different fillings, inviting friends and relatives to join the feast. The week ends with the burning of a straw figure, which symbolizes the departure of the cold season. It is a time for forgiveness and joy before the beginning of the Great Lent. Even today, Maslenitsa remains a popular celebration that brings families and communities together across the country.
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 2. Asking questions</h2>
+            <div class="img-container">
+                <img src="images/ts2/3.jpg" alt="Maslenitsa in a restaurant" style="max-width: 400px;">
+            </div>
+            <p class="task-instruction">Study the advertisement. You are planning to celebrate Maslenitsa in a restaurant. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:</p>
+            <ul>
+                <li>1. special menu</li>
+                <li>2. table reservation</li>
+                <li>3. entertainment program</li>
+                <li>4. price for one person</li>
+            </ul>
+            <button class="spoiler-btn" onclick="toggleSpoiler('answers-t2')">Показать ответы</button>
+            <div class="spoiler-content" id="answers-t2">
+                <ol>
+                    <li>Do you have a special menu?</li>
+                    <li>Can I make a table reservation?</li>
+                    <li>What kind of entertainment program do you offer?</li>
+                    <li>What is the price for one person?</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 3. Interview</h2>
+            <p class="task-instruction">Listen to the audio and answer the questions.</p>
+            <audio controls src="images/ts3/3.mp3"></audio>
+            
+            <button class="spoiler-btn" onclick="toggleSpoiler('answers-t3')">Показать скрипт и примерные ответы</button>
+            <div class="spoiler-content" id="answers-t3">
+                <div class="qa-block">
+                    <div class="question">1. What is the most important holiday for your family?</div>
+                    <div class="answer">The most important one is New Year’s Eve. We always gather together, prepare special food, and exchange gifts at midnight.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">2. How do people usually celebrate Maslenitsa in Russia?</div>
+                    <div class="answer">People usually cook pancakes, which symbolize the sun, and take part in outdoor activities. At the end of the week, they often burn a straw effigy to say goodbye to winter.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">3. What traditional Russian food do you usually have during holidays?</div>
+                    <div class="answer">We often have salads like "Olivier" or "Shuba." Also, my family likes traditional pies with different fillings like cabbage or meat.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">4. Why do you think it’s important to remember your roots and traditions?</div>
+                    <div class="answer">It’s vital because traditions give us a sense of belonging. They connect us to our ancestors and help keep our unique culture alive in a globalized world.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">5. If you could create a new public holiday, what would it be?</div>
+                    <div class="answer">I would create a "Psychology Day" where people could focus on their mental health. It would be a day to rest, reflect, and learn how to manage stress.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 4. Projects</h2>
+            <p class="task-instruction">Project theme: Russian holidays and traditions</p>
+            <div class="dual-images">
+                <img src="images/ts4/6.jpg" alt="Maslenitsa festival outdoor">
+                <img src="images/ts4/7.jpg" alt="Family festive table">
+            </div>
+            <p><strong>Task:</strong> Imagine that you are doing a project "Russian holidays and traditions". Leave a voice message. In 2.5 minutes be ready to:</p>
+            <ul>
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the advantages (1–2) of public outdoor festivals vs. family home traditions;</li>
+                <li>mention the disadvantages (1–2) of both;</li>
+                <li>express your opinion on which type of celebration you prefer and why.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeLeft = 0;
+        const display = document.getElementById('time-display');
+
+        function updateDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            display.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            if (timeLeft <= 10 && timeLeft > 0) display.style.color = '#e74c3c';
+            else display.style.color = '#273443';
+        }
+
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            timeLeft = seconds;
+            updateDisplay();
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) { timeLeft--; updateDisplay(); }
+                else clearInterval(timerInterval);
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 0;
+            updateDisplay();
+        }
+
+        function toggleSpoiler(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
