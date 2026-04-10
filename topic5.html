@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 5: Life in the City and Countryside</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --header-bg: #273443;
+            --bg-color: #f4f6f8;
+            --text-main: #2c3e50;
+            --btn-green: #2ecc71;
+            --btn-red: #e74c3c;
+            --btn-grey: #95a5a6;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            padding-top: 70px;
+        }
+
+        .page-header {
+            background-color: var(--header-bg);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .header-title {
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-box {
+            background: white;
+            color: var(--header-bg);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .timer-btn {
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .btn-green { background-color: var(--btn-green); }
+        .btn-red { background-color: var(--btn-red); }
+        .btn-grey { background-color: var(--btn-grey); }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .task-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            color: var(--header-bg);
+        }
+
+        .task-instruction {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .reading-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .img-container { margin-bottom: 20px; }
+        .img-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .dual-images {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .dual-images img {
+            width: 50%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        audio { width: 100%; margin-bottom: 20px; }
+
+        .spoiler-btn {
+            background: var(--header-bg);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .spoiler-content {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid var(--btn-green);
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .spoiler-content.active { display: block; }
+
+        ul { line-height: 1.8; }
+
+        .qa-block { margin-bottom: 20px; }
+        .question { font-weight: 700; color: #2980b9; }
+        .answer { margin-top: 5px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div class="header-title">TOPIC 5: LIFE IN THE CITY AND COUNTRYSIDE</div>
+        <div class="timer-container">
+            <button class="timer-btn btn-green" onclick="startTimer(90)">1:30</button>
+            <button class="timer-btn btn-green" onclick="startTimer(40)">0:40</button>
+            <button class="timer-btn btn-red" onclick="startTimer(150)">2:30</button>
+            <div class="timer-box" id="time-display">00:00</div>
+            <button class="timer-btn btn-grey" onclick="resetTimer()">СБРОС</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="task-section">
+            <h2>Task 1. Reading aloud</h2>
+            <div class="reading-text">
+                Living in a large Russian city like Moscow or Novosibirsk offers many advantages but also presents certain challenges. On the one hand, urban residents have access to the best educational institutions, modern healthcare, and a wide variety of cultural events. The public transport system, including the famous metro, allows people to move quickly between different districts. On the other hand, the fast pace of life and constant noise can be quite stressful. Many city dwellers suffer from air pollution and a lack of green spaces near their homes. Despite these drawbacks, young people continue to move to big cities in search of career opportunities and a vibrant social life. Urban planning is now focusing on creating more parks and pedestrian zones to make city life more comfortable for everyone.
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 2. Asking questions</h2>
+            <div class="img-container">
+                <img src="images/ts2/5.jpg" alt="Summer house for rent" style="max-width: 400px;">
+            </div>
+            <p class="task-instruction">Study the advertisement. You are considering renting a summer house in the countryside. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:</p>
+            <ul>
+                <li>1. distance from the city</li>
+                <li>2. number of rooms</li>
+                <li>3. local facilities</li>
+                <li>4. monthly rent</li>
+            </ul>
+            <button class="spoiler-btn" onclick="toggleSpoiler('answers-t2')">Показать ответы</button>
+            <div class="spoiler-content" id="answers-t2">
+                <ol>
+                    <li>How far is the house from the city? (Или: What is the distance from the city?)</li>
+                    <li>How many rooms are there in the house?</li>
+                    <li>What local facilities are there near the house?</li>
+                    <li>How much is the monthly rent?</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 3. Interview</h2>
+            <p class="task-instruction">Listen to the audio and answer the questions.</p>
+            <audio controls src="images/ts3/5.mp3"></audio>
+            
+            <button class="spoiler-btn" onclick="toggleSpoiler('answers-t3')">Показать скрипт и примерные ответы</button>
+            <div class="spoiler-content" id="answers-t3">
+                <div class="qa-block">
+                    <div class="question">1. Where would you prefer to live: in a big city or in a small village?</div>
+                    <div class="answer">I’d prefer to live in a big city. I like the fast pace of life, the variety of shops, and the fact that everything I need is always close by.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">2. What are the main disadvantages of living in a metropolis?</div>
+                    <div class="answer">The biggest downsides are traffic jams and air pollution. Also, it can be very noisy and crowded, which sometimes makes people feel stressed.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">3. Why do many young people move from the countryside to the city?</div>
+                    <div class="answer">I believe they move for better education and job opportunities. Big cities offer more career paths and a more active social life for teenagers.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">4. What are the benefits of spending holidays in the countryside?</div>
+                    <div class="answer">The main benefit is the fresh air and the chance to relax in nature. It’s a great way to take a break from gadgets and the noise of the city.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">5. How has city life changed in Russia over the last 10 years?</div>
+                    <div class="answer">I think it has become much more digital. We now have delivery services for everything and better public transport systems with electronic payments.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 4. Projects</h2>
+            <p class="task-instruction">Project theme: Life in the city and countryside in Russia</p>
+            <div class="dual-images">
+                <img src="images/ts4/10.jpg" alt="Moscow City Skyscrapers">
+                <img src="images/ts4/11.jpg" alt="Traditional Village House">
+            </div>
+            <p><strong>Task:</strong> Imagine that you are doing a project "Life in the city and countryside". Leave a voice message. In 2.5 minutes be ready to:</p>
+            <ul>
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the advantages (1–2) of living in a big city vs. a village;</li>
+                <li>mention the disadvantages (1–2) of both;</li>
+                <li>express your opinion on where you would like to live in the future and why.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeLeft = 0;
+        const display = document.getElementById('time-display');
+
+        function updateDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            display.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            if (timeLeft <= 10 && timeLeft > 0) display.style.color = '#e74c3c';
+            else display.style.color = '#273443';
+        }
+
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            timeLeft = seconds;
+            updateDisplay();
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) { timeLeft--; updateDisplay(); }
+                else clearInterval(timerInterval);
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 0;
+            updateDisplay();
+        }
+
+        function toggleSpoiler(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

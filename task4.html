@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 4: Projects - Speaking Russia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a2a3a;
+            --accent-red: #e74c3c;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+        }
+
+        /* --- Шапка и Таймер --- */
+        .page-header {
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        
+        .back-btn:hover {
+            opacity: 0.8;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: white;
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 10px;
+            min-width: 85px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .pause-btn, .restart-btn {
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
+
+        .pause-btn { background: #f39c12; }
+        .restart-btn { background: #7f8c8d; }
+
+        /* --- Основной контент --- */
+        .content-wrapper {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .task-block {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .topic-header {
+            color: var(--accent-red);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+
+        .project-theme {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        /* --- Контейнер для картинок --- */
+        .images-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .image-wrapper {
+            width: calc(50% - 10px);
+            position: relative;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #ecf0f1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: block;
+        }
+
+        .image-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* --- Текст задания --- */
+        .task-text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* --- Списки --- */
+        .points-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #fdfdfd;
+            border: 1px dashed #d1d8e0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .points-list li {
+            padding: 10px 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .points-list li:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+
+        .points-list li::before {
+            content: "•";
+            margin-right: 15px;
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 1.5rem;
+            line-height: 1;
+            margin-top: -2px;
+        }
+
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; gap: 10px; text-align: center; }
+            .timer-controls { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .task-block { padding: 25px; }
+            .images-container { flex-direction: column; gap: 15px; }
+            .image-wrapper { width: 100%; }
+            .image-wrapper img { height: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div style="font-weight: 700; letter-spacing: 1px;">ЗАДАНИЕ 4: PROJECTS</div>
+        <div class="timer-controls">
+            <button class="timer-btn" id="start-btn" onclick="initTimer(330)">⏱ Старт (5:30)</button>
+            <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Пауза</button>
+            <button class="restart-btn" id="restart-btn" onclick="initTimer(330)">🔄 Рестарт</button>
+            <div class="timer-display" id="timer">05:30</div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        
+        <div class="task-block">
+            <div class="topic-header">1. Sightseeing in Russia</div>
+            <div class="project-theme">Project theme: Sightseeing in Russia</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/2.jpg" alt="The Red Square in Moscow">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/3.jpg" alt="Lake Baikal in winter">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Sightseeing in Russia" with your friend. You have found some illustrations and want to share the news. Leave a voice message to your friend. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations for the project by briefly describing them and noting the differences;</li>
+                <li>mention the advantages (1–2) of the two types of sightseeing;</li>
+                <li>mention the disadvantages (1–2) of the two types of sightseeing;</li>
+                <li>express your opinion on the subject of the project — which way of sightseeing in Russia you would prefer and why.</li>
+            </ul>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">2. Famous people of Russia</div>
+            <div class="project-theme">Project theme: Famous people of Russia</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/4.jpg" alt="Alexander Pushkin">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/5.jpg" alt="Yuri Gagarin">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Famous people of Russia" with your friend. Leave a voice message. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations for the project (brief description + differences);</li>
+                <li>mention the advantages (1–2) of being a famous writer vs. a famous explorer;</li>
+                <li>mention the disadvantages (1–2) of these career paths;</li>
+                <li>express your opinion on which person's contribution to Russian culture/history you find more inspiring and why.</li>
+            </ul>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">3. Russian holidays and traditions</div>
+            <div class="project-theme">Project theme: Russian holidays and traditions</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/6.jpg" alt="Maslenitsa celebration">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/7.jpg" alt="Family at a festive table">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Russian holidays and traditions". Leave a voice message. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the advantages (1–2) of public outdoor festivals vs. family home traditions;</li>
+                <li>mention the disadvantages (1–2) of both;</li>
+                <li>express your opinion on which type of celebration you prefer and why.</li>
+            </ul>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">4. Nature and environmental issues</div>
+            <div class="project-theme">Project theme: Nature and environmental issues in Russia</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/8.jpg" alt="Beautiful landscape">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/9.jpg" alt="Pollution">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Nature and environmental issues in Russia". Leave a voice message. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the benefits of Russia's vast nature;</li>
+                <li>mention the most pressing environmental problems in Russia shown or implied by the photos;</li>
+                <li>express your opinion on whether people in Russia do enough to protect the environment and why.</li>
+            </ul>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">5. Life in the city and countryside</div>
+            <div class="project-theme">Project theme: Life in the city and countryside in Russia</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/10.jpg" alt="Moscow City skyscrapers">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/11.jpg" alt="Wooden house in village">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Life in the city and countryside". Leave a voice message. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the advantages (1–2) of living in a big city vs. a village;</li>
+                <li>mention the disadvantages (1–2) of both;</li>
+                <li>express your opinion on where you would like to live in the future and why.</li>
+            </ul>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">6. Science and space exploration</div>
+            <div class="project-theme">Project theme: Russian contribution to science and space exploration</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/12.jpg" alt="Scientist in laboratory">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/13.jpg" alt="Rocket launch">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Russian contribution to science and space exploration". Leave a voice message. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the importance of scientific research vs. space missions;</li>
+                <li>mention the difficulties of these fields;</li>
+                <li>express your opinion on which area of Russian science makes you feel more proud and why.</li>
+            </ul>
+        </div>
+
+        <div class="task-block">
+            <div class="topic-header">7. Schooling in Russia</div>
+            <div class="project-theme">Project theme: Schooling in Russia</div>
+            
+            <div class="images-container">
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 1</span>
+                    <img src="images/ts4/14.jpg" alt="Students in classroom">
+                </div>
+                <div class="image-wrapper">
+                    <span class="image-label">Photo 2</span>
+                    <img src="images/ts4/15.jpg" alt="Student studying online">
+                </div>
+            </div>
+
+            <div class="task-text">
+                Task: Imagine that you are doing a project "Schooling in Russia". Leave a voice message. In 2.5 minutes be ready to:
+            </div>
+            
+            <ul class="points-list">
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the advantages (1–2) of traditional school education vs. distance learning;</li>
+                <li>mention the disadvantages (1–2) of both;</li>
+                <li>express your opinion on which way of schooling you find more effective for yourself and why.</li>
+            </ul>
+        </div>
+
+    </main>
+
+    <script>
+        let countdown;
+        let timeLeft;
+        let isPaused = false;
+
+        function initTimer(seconds) {
+            clearInterval(countdown);
+            timeLeft = seconds;
+            isPaused = false;
+            
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('pause-btn').style.display = 'block';
+            document.getElementById('pause-btn').textContent = '⏸ Пауза';
+            document.getElementById('pause-btn').style.background = '#f39c12';
+            document.getElementById('restart-btn').style.display = 'block';
+            
+            updateDisplay(timeLeft);
+            startCounting();
+        }
+
+        function startCounting() {
+            const display = document.getElementById('timer');
+            display.style.color = "var(--primary-color)";
+            
+            countdown = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        display.textContent = "00:00";
+                        display.style.color = "red";
+                        return;
+                    }
+                    updateDisplay(timeLeft);
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(s) {
+            const mins = Math.floor(s / 60);
+            const secs = s % 60;
+            document.getElementById('timer').textContent = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            const btn = document.getElementById('pause-btn');
+            if (isPaused) {
+                btn.textContent = '▶ Продолжить';
+                btn.style.background = '#2ecc71';
+            } else {
+                btn.textContent = '⏸ Пауза';
+                btn.style.background = '#f39c12';
+            }
+        }
+    </script>
+</body>
+</html>

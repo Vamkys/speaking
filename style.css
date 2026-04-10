@@ -1,0 +1,260 @@
+:root {
+    --primary-color: #1a2a3a; /* Темно-синий из шапки марафона */
+    --accent-red: #ff4757;    /* Красный для таймера и акцентов */
+    --soft-blue: #eef2f7;     /* Светло-голубой для фонов карточек */
+    --white: #ffffff;
+    --text-main: #2c3e50;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Сброс ссылок */
+a { text-decoration: none; color: inherit; }
+
+/* --- Hero Section --- */
+.hero-section {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), #f8f9fa), 
+                url('images/1.jpg') no-repeat center center / cover;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--primary-color);
+    text-transform: uppercase;
+}
+
+.hero-title .accent {
+    color: var(--primary-color);
+    opacity: 0.8;
+    display: block;
+    font-size: 2.2rem;
+}
+
+/* --- Сетка заданий --- */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: -60px;
+    position: relative;
+    z-index: 5;
+}
+
+.task-card {
+    background: var(--white);
+    padding: 40px 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.task-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-color);
+}
+
+.task-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* --- Секция Темы (7 кружков) --- */
+.topics-section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.section-heading {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.topics-flex {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.topic-bubble {
+    width: 60px;
+    height: 60px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.topic-bubble:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+/* --- Кнопка (Футер) --- */
+.site-footer {
+    padding: 20px 0 80px;
+    text-align: center;
+}
+
+.main-btn {
+    display: inline-block;
+    padding: 18px 50px;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.main-btn:hover {
+    background: #2c3e50;
+    box-shadow: 0 10px 20px rgba(26, 42, 58, 0.2);
+}
+
+/* --- ПОЛНАЯ АДАПТАЦИЯ САЙТА --- */
+
+/* Настройка для планшетов и мобилок (до 768px) */
+@media (max-width: 768px) {
+    /* Шапка сайта */
+    header, .page-header {
+        flex-direction: column; /* Элементы встают друг под друга */
+        padding: 15px;
+        text-align: center;
+        gap: 10px;
+    }
+
+    /* Сетка карточек на главной (index.html) */
+    .cards-wrapper, .tasks-grid { 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .card, .task-card {
+        width: 100% !important;
+        max-width: 350px; /* Чтобы карточки не были слишком широкими */
+    }
+
+    /* Контент заданий (task1, task2 и т.д.) */
+    .content-wrapper {
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    .task-block, .instruction-box {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    /* Текст */
+    h1 { font-size: 1.8rem !important; }
+    .task-title { font-size: 1.3rem !important; }
+    
+    /* Таймер и кнопки */
+    .timer-controls {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+/* Настройка для маленьких телефонов (до 480px) */
+@media (max-width: 480px) {
+    .timer-display {
+        font-size: 1.2rem;
+        padding: 5px 10px;
+    }
+    
+    .back-btn, .timer-btn {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+    }
+}
+
+/* Улучшенная кнопка ответов */
+.answer-section {
+    margin-top: 25px;
+}
+
+.toggle-btn {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    color: #495057;
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+    transform: translateY(-2px);
+}
+
+.toggle-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Плавное раскрытие ответов */
+.answers-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.3s ease;
+    background: #f1f9f1;
+    border-radius: 12px;
+    margin-top: 0;
+    padding: 0 20px; /* Убираем вертикальный паддинг пока закрыто */
+    border-left: 5px solid #2ecc71;
+    line-height: 1.8;
+    color: #27ae60;
+}
+
+.answers-content.show {
+    max-height: 500px; /* Достаточно для текста */
+    padding: 20px;
+    margin-top: 15px;
+}

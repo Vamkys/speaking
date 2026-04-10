@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3: Interview - Speaking Russia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --header-bg: #243447;
+            --bg-color: #f0f2f5;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+            --text-main: #2c3e50;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+        }
+
+        /* --- Header по скриншоту --- */
+        .page-header {
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .header-title {
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timer-display {
+            background: white;
+            color: #243447;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .controls button {
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .start-btn { background: var(--accent-green); color: white; }
+        .reset-btn { background: #636e72; color: white; }
+        .pause-btn { background: #f39c12; color: white; display: none; }
+
+        /* --- Контент --- */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--accent-red);
+        }
+
+        h2 { margin-top: 0; font-size: 1.3rem; color: var(--header-bg); border-bottom: 1px solid #eee; padding-bottom: 15px; }
+
+        audio { width: 100%; margin: 15px 0 25px 0; height: 35px; }
+
+        .qa-list { display: flex; flex-direction: column; gap: 20px; }
+
+        .qa-item { border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; }
+        .qa-item:last-child { border: none; }
+
+        .q-text { font-weight: 700; font-size: 1.05rem; display: block; margin-bottom: 8px; color: #34495e; }
+
+        .ans-toggle {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .a-box {
+            display: none;
+            margin-top: 12px;
+            padding: 15px;
+            background: #eef7ff;
+            border-radius: 8px;
+            color: #2980b9;
+            font-style: italic;
+            border-left: 4px solid #3498db;
+        }
+        .a-box.active { display: block; animation: slideIn 0.3s ease; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .header-title { display: none; }
+            .topic-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div class="header-title">ЗАДАНИЕ 3: INTERVIEW</div>
+        <div class="header-right">
+            <div class="controls">
+                <button class="start-btn" id="start-btn" onclick="startTimer()">Старт</button>
+                <button class="pause-btn" id="pause-btn" onclick="togglePause()">Пауза</button>
+                <button class="reset-btn" onclick="resetTimer()">Сброс</button>
+            </div>
+            <div class="timer-display" id="timer">00:40</div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="topic-card">
+            <h2>1. Sightseeing in Russia</h2>
+            <audio controls src="images/ts3/1.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. What region of Russia do you live in? What is it famous for?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">Actually, I live in the Oryol region. It is famous for its beautiful landscapes and its connection to great Russian writers like Turgenev.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. What are the most popular tourist destinations in your country?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">The most popular places are definitely Moscow and Saint Petersburg because of their history. However, Lake Baikal and the Altai Mountains are also becoming very trendy for nature lovers.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. What historical landmarks in your city or region would you recommend visiting?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I’d recommend visiting the local parks and museums dedicated to our history. They offer a great atmosphere where you can learn about how people lived in the past.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. Why do you think some people prefer travelling abroad rather than within Russia?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I suppose they want to experience different cultures and climates. Also, sometimes flights to Europe or Asia can be cheaper than domestic flights to distant parts of Russia like Kamchatka.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. What would you say to a friend who is planning a trip to Russia for the first time?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I would advise them to prepare for the weather and learn some basic Russian phrases. Also, I’d suggest visiting both big cities and small traditional towns to see the real Russia.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h2>2. Famous People of Russia</h2>
+            <audio controls src="images/ts3/2.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. Who is the most famous person from your home region?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">As I’ve mentioned, my region is linked to Ivan Turgenev. He was a world-famous writer whose books are still studied in schools today.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. In your opinion, which Russian scientist or inventor has changed the world?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I believe it’s Dmitry Mendeleev. His Periodic Table is the foundation of modern chemistry, and without it, many scientific discoveries wouldn't have happened.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. What Russian athletes or sports figures are you proud of?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I’m proud of our figure skaters because they always show incredible results. Their discipline and hard work are a great example for young people.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. Do you think it is easy to be a famous person nowadays? Why?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I don't think so, because famous people are always under pressure from social media. Every mistake they make is discussed by everyone, so it must be very stressful.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. What field would you like to become famous in, and why?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">To be honest, I haven't decided yet, but I'm interested in linguistics and education. I’d like to be known for helping people learn languages effectively.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h2>3. Russian Holidays and Traditions</h2>
+            <audio controls src="images/ts3/3.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. What is the most important holiday for your family?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">The most important one is New Year’s Eve. We always gather together, prepare special food, and exchange gifts at midnight.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. How do people usually celebrate Maslenitsa in Russia?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">People usually cook pancakes, which symbolize the sun, and take part in outdoor activities. At the end of the week, they often burn a straw effigy to say goodbye to winter.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. What traditional Russian food do you usually have during holidays?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">We often have salads like "Olivier" or "Shuba." Also, my family likes traditional pies with different fillings like cabbage or meat.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. Why do you think it’s important to remember your roots and traditions?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">It’s vital because traditions give us a sense of belonging. They connect us to our ancestors and help keep our unique culture alive in a globalized world.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. If you could create a new public holiday, what would it be?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I would create a "Psychology Day" where people could focus on their mental health. It would be a day to rest, reflect, and learn how to manage stress.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h2>4. Nature and Environmental Issues</h2>
+            <audio controls src="images/ts3/4.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. What is the climate like in the part of Russia where you live?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">The climate in my region is temperate continental. We have quite cold winters with snow and warm, sometimes even hot, summers.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. Are there any environmental problems in your home town?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">Yes, the main issues are air pollution from cars and a lack of proper recycling systems. We also have problems with littering in public parks.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. What do you and your family do to protect the environment?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">We try to save water and electricity at home. Also, I always take a reusable bag when I go shopping to reduce the amount of plastic waste.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. Do you think schools should have more lessons about ecology? Why?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">Definitely, because children need to understand how their actions affect the planet. If we learn about ecology early, we will grow up to be more responsible citizens.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. Is it popular among your friends to live an "eco-friendly" lifestyle?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">It’s becoming more popular. Some of my friends have started sorting their trash, and many prefer eco-friendly brands of clothes or cosmetics.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h2>5. Life in the City and Countryside</h2>
+            <audio controls src="images/ts3/5.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. Where would you prefer to live: in a big city or in a small village?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I’d prefer to live in a big city. I like the fast pace of life, the variety of shops, and the fact that everything I need is always close by.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. What are the main disadvantages of living in a metropolis?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">The biggest downsides are traffic jams and air pollution. Also, it can be very noisy and crowded, which sometimes makes people feel stressed.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. Why do many young people move from the countryside to the city?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I believe they move for better education and job opportunities. Big cities offer more career paths and a more active social life for teenagers.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. What are the benefits of spending holidays in the countryside?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">The main benefit is the fresh air and the chance to relax in nature. It’s a great way to take a break from gadgets and the noise of the city.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. How has city life changed in Russia over the last 10 years?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I think it has become much more digital. We now have delivery services for everything and better public transport systems with electronic payments.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h2>6. Science and Space Exploration</h2>
+            <audio controls src="images/ts3/6.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. What do you know about the first man in space?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">The first man in space was Yuri Gagarin. He made his famous flight in 1961, which was a huge breakthrough for all of humanity.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. Are you interested in news about space exploration? Why?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">Yes, I find it fascinating because space is still a big mystery. I like reading about the possibility of living on other planets in the future.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. What Russian scientific discovery do you find the most useful?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I think the invention of the radio by Alexander Popov was crucial. It paved the way for modern communication, including television and mobile phones.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. Why do you think the government spends so much money on space programs?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">It’s because space research leads to new technologies that we use in everyday life, like satellite navigation. It’s also important for national prestige.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. Would you like to go to space as a tourist one day?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">To be honest, I’m not sure because it seems quite dangerous. However, if the technology becomes safer, it would be an incredible experience to see the Earth from above.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h2>7. Schooling in Russia</h2>
+            <audio controls src="images/ts3/7.mp3"></audio>
+            <div class="qa-list">
+                <div class="qa-item">
+                    <span class="q-text">1. What is your favourite subject at school and why?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">My favourite subjects are English and Social Studies. I enjoy learning languages because they open up new worlds, and Social Studies helps me understand how society works.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">2. What do you usually do during your school breaks?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I usually chat with my friends or check my phone. Sometimes I use this time to prepare for the next lesson or have a quick snack.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">3. Do you think the Russian school system prepares students for real life?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">In some ways, yes, because it teaches us discipline and basic knowledge. However, I think we need more practical lessons, like how to manage money or taxes.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">4. What is your opinion on the Unified State Exam (EGE)?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">It’s a very stressful period for every student. On the one hand, it’s a fair way to enter university, but on the other hand, the pressure is sometimes too high.</div>
+                </div>
+                <div class="qa-item">
+                    <span class="q-text">5. What would you like to do after you graduate from school?</span>
+                    <button class="ans-toggle" onclick="toggleA(this)">Sample Answer</button>
+                    <div class="a-box">I plan to enter a university and get a degree. I’m thinking about something related to linguistics or social sciences, but I’m still exploring my options.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let timer;
+        let timeLeft = 40;
+        let isPaused = false;
+
+        const timerDisplay = document.getElementById('timer');
+        const startBtn = document.getElementById('start-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+
+        function updateDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            timerDisplay.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            if (timeLeft <= 5) timerDisplay.style.color = '#e74c3c';
+            else timerDisplay.style.color = '#243447';
+        }
+
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            isPaused = false;
+            startBtn.style.display = 'none';
+            pauseBtn.style.display = 'inline-block';
+            pauseBtn.textContent = 'Пауза';
+            pauseBtn.style.background = '#f39c12';
+
+            timer = setInterval(() => {
+                if (!isPaused && timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else if (timeLeft === 0) {
+                    clearInterval(timer);
+                    timerDisplay.style.color = 'red';
+                }
+            }, 1000);
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            pauseBtn.textContent = isPaused ? 'Продолжить' : 'Пауза';
+            pauseBtn.style.background = isPaused ? '#2ecc71' : '#f39c12';
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 40;
+            isPaused = false;
+            updateDisplay();
+            startBtn.style.display = 'inline-block';
+            pauseBtn.style.display = 'none';
+            timerDisplay.style.color = '#243447';
+        }
+
+        function toggleA(btn) {
+            const box = btn.nextElementSibling;
+            box.classList.toggle('active');
+            btn.textContent = box.classList.contains('active') ? 'Hide Answer' : 'Sample Answer';
+        }
+    </script>
+</body>
+</html>

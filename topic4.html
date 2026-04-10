@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 4: Nature and Environmental Issues</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --header-bg: #273443;
+            --bg-color: #f4f6f8;
+            --text-main: #2c3e50;
+            --btn-green: #2ecc71;
+            --btn-red: #e74c3c;
+            --btn-grey: #95a5a6;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            padding-top: 70px;
+        }
+
+        .page-header {
+            background-color: var(--header-bg);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .header-title {
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-box {
+            background: white;
+            color: var(--header-bg);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .timer-btn {
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .btn-green { background-color: var(--btn-green); }
+        .btn-red { background-color: var(--btn-red); }
+        .btn-grey { background-color: var(--btn-grey); }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .task-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            color: var(--header-bg);
+        }
+
+        .task-instruction {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .reading-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .img-container { margin-bottom: 20px; }
+        .img-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .dual-images {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .dual-images img {
+            width: 50%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        audio { width: 100%; margin-bottom: 20px; }
+
+        .spoiler-btn {
+            background: var(--header-bg);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .spoiler-content {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid var(--btn-green);
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .spoiler-content.active { display: block; }
+
+        ul { line-height: 1.8; }
+
+        .qa-block { margin-bottom: 20px; }
+        .question { font-weight: 700; color: #2980b9; }
+        .answer { margin-top: 5px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-btn">← На главную</a>
+        <div class="header-title">TOPIC 4: NATURE AND ENVIRONMENTAL ISSUES</div>
+        <div class="timer-container">
+            <button class="timer-btn btn-green" onclick="startTimer(90)">1:30</button>
+            <button class="timer-btn btn-green" onclick="startTimer(40)">0:40</button>
+            <button class="timer-btn btn-red" onclick="startTimer(150)">2:30</button>
+            <div class="timer-box" id="time-display">00:00</div>
+            <button class="timer-btn btn-grey" onclick="resetTimer()">СБРОС</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="task-section">
+            <h2>Task 1. Reading aloud</h2>
+            <div class="reading-text">
+                Russia possesses the largest forest reserves in the world, often referred to as the "lungs of Europe." These vast territories of taiga play a crucial role in regulating the global climate by absorbing carbon dioxide. However, these forests face several environmental threats, including illegal logging and forest fires during the hot summer months. Protecting this natural wealth has become a top priority for the government and various environmental organizations. New laws have been introduced to ensure sustainable forest management and to restore areas damaged by fires. Public awareness campaigns also encourage citizens to behave responsibly when spending time in nature. Preserving the forests is not only important for the economy but also for protecting the habitats of endangered animals like the Siberian tiger.
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 2. Asking questions</h2>
+            <div class="img-container">
+                <img src="images/ts2/4.jpg" alt="Volunteer eco-project" style="max-width: 400px;">
+            </div>
+            <p class="task-instruction">Study the advertisement. You are considering joining a volunteer eco-project. You’d like to get more information. In 1.5 minutes you are to ask four direct questions to find out about the following:</p>
+            <ul>
+                <li>1. meeting point</li>
+                <li>2. equipment provided</li>
+                <li>3. duration of the event</li>
+                <li>4. age restrictions</li>
+            </ul>
+            <button class="spoiler-btn" onclick="toggleSpoiler('answers-t2')">Показать ответы</button>
+            <div class="spoiler-content" id="answers-t2">
+                <ol>
+                    <li>Where is the meeting point?</li>
+                    <li>Is the necessary equipment provided?</li>
+                    <li>How long does the event last?</li>
+                    <li>Are there any age restrictions for volunteers?</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 3. Interview</h2>
+            <p class="task-instruction">Listen to the audio and answer the questions.</p>
+            <audio controls src="images/ts3/4.mp3"></audio>
+            
+            <button class="spoiler-btn" onclick="toggleSpoiler('answers-t3')">Показать скрипт и примерные ответы</button>
+            <div class="spoiler-content" id="answers-t3">
+                <div class="qa-block">
+                    <div class="question">1. What is the climate like in the part of Russia where you live?</div>
+                    <div class="answer">The climate in my region is temperate continental. We have quite cold winters with snow and warm, sometimes even hot, summers.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">2. Are there any environmental problems in your home town?</div>
+                    <div class="answer">Yes, the main issues are air pollution from cars and a lack of proper recycling systems. We also have problems with littering in public parks.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">3. What do you and your family do to protect the environment?</div>
+                    <div class="answer">We try to save water and electricity at home. Also, I always take a reusable bag when I go shopping to reduce the amount of plastic waste.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">4. Do you think schools should have more lessons about ecology? Why?</div>
+                    <div class="answer">Definitely, because children need to understand how their actions affect the planet. If we learn about ecology early, we will grow up to be more responsible citizens.</div>
+                </div>
+                <div class="qa-block">
+                    <div class="question">5. Is it popular among your friends to live an "eco-friendly" lifestyle?</div>
+                    <div class="answer">It’s becoming more popular. Some of my friends have started sorting their trash, and many prefer eco-friendly brands of clothes or cosmetics.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <h2>Task 4. Projects</h2>
+            <p class="task-instruction">Project theme: Nature and environmental issues in Russia</p>
+            <div class="dual-images">
+                <img src="images/ts4/8.jpg" alt="Caucasus landscape">
+                <img src="images/ts4/9.jpg" alt="Pollution near factory">
+            </div>
+            <p><strong>Task:</strong> Imagine that you are doing a project "Nature and environmental issues in Russia". Leave a voice message. In 2.5 minutes be ready to:</p>
+            <ul>
+                <li>explain the choice of the illustrations (brief description + differences);</li>
+                <li>mention the benefits of Russia's vast nature;</li>
+                <li>mention the most pressing environmental problems in Russia shown or implied by the photos;</li>
+                <li>express your opinion on whether people in Russia do enough to protect the environment and why.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeLeft = 0;
+        const display = document.getElementById('time-display');
+
+        function updateDisplay() {
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            display.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            if (timeLeft <= 10 && timeLeft > 0) display.style.color = '#e74c3c';
+            else display.style.color = '#273443';
+        }
+
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            timeLeft = seconds;
+            updateDisplay();
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) { timeLeft--; updateDisplay(); }
+                else clearInterval(timerInterval);
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 0;
+            updateDisplay();
+        }
+
+        function toggleSpoiler(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
