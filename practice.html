@@ -49,15 +49,69 @@
         }
         .gen-btn:hover { background-color: #27ae60; transform: scale(1.05); }
 
+        /* Экзаменационный таймер 17 минут */
+        .exam-timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.08);
+            padding: 6px 12px;
+            border-radius: 10px;
+        }
+        .exam-label {
+            color: #95a5a6;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-right: 4px;
+        }
         .timer-display {
             background: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
             font-weight: 800;
             font-size: 1.4rem;
-            min-width: 80px;
+            min-width: 90px;
             text-align: center;
+            font-variant-numeric: tabular-nums;
+            transition: color 0.3s;
         }
+        .timer-ctrl {
+            background: #34495e;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-ctrl:hover { background: var(--accent); }
+        .timer-ctrl.reset:hover { background: var(--red); }
+
+        /* Мини-таймер задания (плавающий) */
+        .mini-timer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            font-variant-numeric: tabular-nums;
+            display: none;
+            z-index: 1100;
+            border-left: 5px solid var(--accent);
+        }
+        .mini-timer.show { display: block; }
 
         .container { max-width: 900px; margin: 0 auto 50px; padding: 0 20px; }
 
@@ -97,6 +151,12 @@
         }
 
         .welcome { text-align: center; padding: 80px 0; }
+
+        @media (max-width: 640px) {
+            .exam-label { display: none; }
+            .timer-display { font-size: 1.1rem; min-width: 70px; padding: 6px 10px; }
+            .gen-btn { padding: 10px 12px; font-size: 0.75rem; }
+        }
     </style>
 </head>
 <body>
@@ -106,7 +166,13 @@
             <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">← МЕНЮ</a>
             <button class="gen-btn" onclick="generateVariant()">Сгенерировать вариант</button>
         </div>
-        <div class="timer-display" id="timer">00:00</div>
+
+        <div class="exam-timer">
+            <span class="exam-label">Экзамен</span>
+            <span class="timer-display" id="examTimer">17:00</span>
+            <button class="timer-ctrl" id="examStartBtn" onclick="examToggle()" title="Пуск / Пауза">▶</button>
+            <button class="timer-ctrl reset" onclick="examReset()" title="Сброс">↺</button>
+        </div>
     </header>
 
     <div class="container">
@@ -165,6 +231,9 @@
         </div>
 
     </div>
+
+    <!-- Плавающий мини-таймер для отдельных заданий -->
+    <div id="miniTimer" class="mini-timer">0:00</div>
 
     <script>
         const topics = {
@@ -226,21 +295,66 @@
             }
         };
 
+        /* ========== ЭКЗАМЕНАЦИОННЫЙ ТАЙМЕР 17 МИНУТ ========== */
+        const EXAM_TOTAL = 17 * 60; // 1020 секунд
+        let examTime = EXAM_TOTAL;
+        let examInt = null;
+        let examRunning = false;
+
+        function renderExam() {
+            const el = document.getElementById('examTimer');
+            const m = Math.floor(examTime / 60);
+            const s = examTime % 60;
+            el.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            if (examTime <= 60) el.style.color = '#e74c3c';
+            else if (examTime <= 300) el.style.color = '#e67e22';
+            else el.style.color = '#2c3e50';
+        }
+
+        function examToggle() {
+            const btn = document.getElementById('examStartBtn');
+            if (examRunning) {
+                clearInterval(examInt);
+                examRunning = false;
+                btn.innerText = '▶';
+                return;
+            }
+            if (examTime <= 0) return;
+            examRunning = true;
+            btn.innerText = '⏸';
+            examInt = setInterval(() => {
+                examTime--;
+                renderExam();
+                if (examTime <= 0) {
+                    clearInterval(examInt);
+                    examRunning = false;
+                    btn.innerText = '▶';
+                    alert("⏰ Экзамен завершён! Время вышло.");
+                }
+            }, 1000);
+        }
+
+        function examReset() {
+            clearInterval(examInt);
+            examRunning = false;
+            examTime = EXAM_TOTAL;
+            document.getElementById('examStartBtn').innerText = '▶';
+            renderExam();
+        }
+
+        /* ========== ГЕНЕРАЦИЯ ВАРИАНТА ========== */
         function generateVariant() {
             document.getElementById('welcome').style.display = 'none';
             document.querySelectorAll('.task-card').forEach(c => c.classList.add('show'));
             document.querySelectorAll('.answer-area').forEach(a => a.classList.remove('show'));
 
-            // Независимый рандом для каждого задания
             const r1 = Math.floor(Math.random() * 7) + 1;
             const r2 = Math.floor(Math.random() * 7) + 1;
             const r3 = Math.floor(Math.random() * 7) + 1;
             const r4 = Math.floor(Math.random() * 7) + 1;
 
-            // Заполнение Задания 1
             document.getElementById('t1-text').innerText = topics[r1].t1;
 
-            // Заполнение Задания 2
             document.getElementById('t2-img').src = `images/ts2/${r2}.jpg`;
             document.getElementById('t2-instr').innerText = `You are considering... (${topics[r2].title}). Ask 4 questions:`;
             const t2List = document.getElementById('t2-points');
@@ -248,11 +362,9 @@
             topics[r2].t2.forEach(p => t2List.innerHTML += `<li>${p}</li>`);
             document.getElementById('t2-ans').innerText = topics[r2].t2a;
 
-            // Заполнение Задания 3
             document.getElementById('t3-audio').src = `images/ts3/${r3}.mp3`;
             document.getElementById('t3-ans').innerHTML = topics[r3].t3;
 
-            // Заполнение Задания 4 (Логика имен файлов: Тема 1 -> 2.jpg и 3.jpg)
             const imgStart = r4 * 2; 
             document.getElementById('t4-theme').innerText = "Project Theme: " + topics[r4].title;
             document.getElementById('t4-img1').src = `images/ts4/${imgStart}.jpg`;
@@ -263,21 +375,39 @@
             window.scrollTo(0, 0);
         }
 
-        let timerInt;
+        /* ========== МИНИ-ТАЙМЕР ДЛЯ ОТДЕЛЬНЫХ ЗАДАНИЙ ========== */
+        let miniInt = null;
         function startTimer(sec) {
-            clearInterval(timerInt);
+            clearInterval(miniInt);
             let time = sec;
-            const disp = document.getElementById('timer');
-            timerInt = setInterval(() => {
-                let m = Math.floor(time / 60);
-                let s = time % 60;
-                disp.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-                if (time <= 0) { clearInterval(timerInt); alert("Время вышло!"); }
+            const box = document.getElementById('miniTimer');
+            box.classList.add('show');
+            box.style.color = '#2c3e50';
+            box.style.borderLeftColor = '#3498db';
+
+            const render = () => {
+                const m = Math.floor(time / 60);
+                const s = time % 60;
+                box.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            };
+            render();
+
+            miniInt = setInterval(() => {
                 time--;
+                render();
+                if (time <= 0) {
+                    clearInterval(miniInt);
+                    box.style.color = '#e74c3c';
+                    box.style.borderLeftColor = '#e74c3c';
+                    alert("Время задания вышло!");
+                }
             }, 1000);
         }
 
         function toggleAns(id) { document.getElementById(id).classList.toggle('show'); }
+
+        // Первичная отрисовка экзаменационного таймера
+        renderExam();
     </script>
 </body>
 </html>
