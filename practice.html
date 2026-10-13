@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1a252f">
     <title>Practice Mode - Полный вариант</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -14,27 +15,50 @@
             --red: #e74c3c;
         }
 
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            padding-top: 80px;
             color: #2c3e50;
         }
 
+        /* ================= ШАПКА (sticky → сама подстраивает высоту) ================= */
         .page-header {
             background-color: var(--header-bg);
-            padding: 0 20px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
+            min-height: 70px;
             z-index: 1000;
         }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 0;
+        }
+
+        .menu-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            transition: opacity .2s;
+        }
+        .menu-link:hover { opacity: .7; }
 
         .gen-btn {
             background-color: var(--green);
@@ -42,12 +66,19 @@
             border: none;
             padding: 12px 24px;
             border-radius: 5px;
+            font-family: inherit;
             font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: .3px;
             cursor: pointer;
             text-transform: uppercase;
+            white-space: nowrap;
             transition: 0.3s;
         }
         .gen-btn:hover { background-color: #27ae60; transform: scale(1.05); }
+        .gen-btn:active { transform: scale(0.97); }
+
+        .gen-short { display: none; }
 
         /* Экзаменационный таймер 17 минут */
         .exam-timer {
@@ -57,6 +88,8 @@
             background: rgba(255,255,255,0.08);
             padding: 6px 12px;
             border-radius: 10px;
+            margin-left: auto;
+            flex-shrink: 0;
         }
         .exam-label {
             color: #95a5a6;
@@ -64,7 +97,6 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-right: 4px;
         }
         .timer-display {
             background: white;
@@ -83,6 +115,7 @@
             border: none;
             width: 36px;
             height: 36px;
+            flex-shrink: 0;
             border-radius: 8px;
             font-size: 1rem;
             font-weight: 700;
@@ -113,6 +146,7 @@
         }
         .mini-timer.show { display: block; }
 
+        /* ================= КОНТЕНТ ================= */
         .container { max-width: 900px; margin: 0 auto 50px; padding: 0 20px; }
 
         .task-card {
@@ -128,16 +162,18 @@
 
         h2 { border-left: 5px solid var(--accent); padding-left: 15px; margin-top: 0; }
         .instruction { font-weight: 600; color: #7f8c8d; margin-bottom: 15px; }
-        
+
         .content-box { line-height: 1.7; font-size: 1.05rem; }
-        
-        img { max-width: 100%; border-radius: 8px; margin: 15px 0; border: 1px solid #ddd; }
-        
+
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; border: 1px solid #ddd; }
+
         .dual-img { display: flex; gap: 15px; margin: 15px 0; }
         .dual-img img { width: 50%; height: 250px; object-fit: cover; }
 
-        .controls { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-s { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; color: white; }
+        audio { width: 100%; max-width: 100%; }
+
+        .controls { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .btn-s { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; color: white; font-family: inherit; }
         .btn-blue { background: var(--accent); }
         .btn-grey { background: #95a5a6; }
 
@@ -148,35 +184,113 @@
             background: #f9f9f9;
             border-left: 4px solid var(--green);
             font-size: 0.95rem;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
 
-        .welcome { text-align: center; padding: 80px 0; }
+        .welcome { text-align: center; padding: 80px 20px; }
 
-        @media (max-width: 640px) {
+        /* ================= АДАПТИВ ================= */
+
+        /* Планшеты */
+        @media (max-width: 768px) {
+            .page-header { padding: 8px 14px; min-height: 62px; gap: 8px; }
+            .header-left { gap: 10px; }
+            .gen-btn { padding: 10px 16px; font-size: 0.75rem; }
+            .exam-timer { padding: 5px 10px; gap: 8px; }
             .exam-label { display: none; }
-            .timer-display { font-size: 1.1rem; min-width: 70px; padding: 6px 10px; }
-            .gen-btn { padding: 10px 12px; font-size: 0.75rem; }
+            .timer-display { font-size: 1.1rem; min-width: 74px; padding: 6px 12px; }
+            .timer-ctrl { width: 34px; height: 34px; font-size: 0.9rem; }
+
+            .container { padding: 0 14px; }
+            .task-card { padding: 24px 20px; }
+        }
+
+        /* Крупные телефоны */
+        @media (max-width: 560px) {
+            .page-header { padding: 8px 10px; gap: 6px; }
+            .header-left { gap: 8px; }
+            .menu-link { font-size: 0.85rem; }
+            .gen-btn { padding: 9px 12px; font-size: 0.7rem; letter-spacing: 0; }
+            .exam-timer { padding: 4px 8px; gap: 6px; border-radius: 8px; }
+            .timer-display { font-size: 1rem; min-width: 66px; padding: 6px 10px; }
+            .timer-ctrl { width: 32px; height: 32px; font-size: 0.85rem; border-radius: 7px; }
+
+            .container { padding: 0 10px; margin-bottom: 30px; }
+            .task-card { padding: 18px 16px; border-radius: 10px; margin-bottom: 20px; }
+            h2 { font-size: 1.15rem; padding-left: 12px; }
+            .instruction { font-size: 0.9rem; }
+            .content-box { font-size: 1rem; }
+
+            .dual-img { flex-direction: column; gap: 10px; }
+            .dual-img img { width: 100%; height: 200px; }
+
+            .controls { gap: 8px; }
+            .btn-s { flex: 1 1 auto; text-align: center; }
+
+            .welcome { padding: 50px 16px; }
+            .welcome h1 { font-size: 1.35rem; }
+            .welcome p { font-size: 0.95rem; }
+        }
+
+        /* Небольшие телефоны */
+        @media (max-width: 480px) {
+            .gen-full { display: none; }
+            .gen-short { display: inline; }
+
+            .page-header { padding: 8px; gap: 6px; min-height: 58px; }
+            .header-left { gap: 8px; }
+            .menu-link { font-size: 0.8rem; }
+            .gen-btn { padding: 8px 11px; font-size: 0.68rem; }
+            .exam-timer { padding: 4px 6px; gap: 5px; }
+            .timer-display { font-size: 0.95rem; min-width: 58px; padding: 5px 8px; }
+            .timer-ctrl { width: 30px; height: 30px; font-size: 0.8rem; }
+
+            .mini-timer {
+                bottom: 12px;
+                right: 12px;
+                padding: 10px 16px;
+                font-size: 1.15rem;
+                border-radius: 10px;
+                border-left-width: 4px;
+            }
+
+            .task-card { padding: 16px 14px; }
+            .dual-img img { height: 170px; }
+        }
+
+        /* Очень узкие экраны */
+        @media (max-width: 360px) {
+            .menu-link { font-size: 0.75rem; }
+            .gen-btn { padding: 7px 9px; font-size: 0.64rem; }
+            .timer-display { font-size: 0.9rem; min-width: 52px; padding: 5px 6px; }
+            .timer-ctrl { width: 28px; height: 28px; font-size: 0.75rem; }
+            .exam-timer { gap: 4px; padding: 3px 5px; }
+            h2 { font-size: 1.05rem; }
         }
     </style>
 </head>
 <body>
 
     <header class="page-header">
-        <div style="display: flex; gap: 15px; align-items: center;">
-            <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;">← МЕНЮ</a>
-            <button class="gen-btn" onclick="generateVariant()">Сгенерировать вариант</button>
+        <div class="header-left">
+            <a href="index.html" class="menu-link">← <span class="menu-text">МЕНЮ</span></a>
+            <button class="gen-btn" onclick="generateVariant()">
+                <span class="gen-full">Сгенерировать вариант</span>
+                <span class="gen-short">Вариант</span>
+            </button>
         </div>
 
         <div class="exam-timer">
             <span class="exam-label">Экзамен</span>
             <span class="timer-display" id="examTimer">17:00</span>
-            <button class="timer-ctrl" id="examStartBtn" onclick="examToggle()" title="Пуск / Пауза">▶</button>
-            <button class="timer-ctrl reset" onclick="examReset()" title="Сброс">↺</button>
+            <button class="timer-ctrl" id="examStartBtn" onclick="examToggle()" title="Пуск / Пауза" aria-label="Пуск / Пауза">▶</button>
+            <button class="timer-ctrl reset" onclick="examReset()" title="Сброс" aria-label="Сброс">↺</button>
         </div>
     </header>
 
     <div class="container">
-        
+
         <div id="welcome" class="welcome">
             <h1>Экзаменационный тренажер</h1>
             <p>Нажмите кнопку вверху, чтобы собрать случайный вариант из 7 тем.</p>
@@ -365,7 +479,7 @@
             document.getElementById('t3-audio').src = `images/ts3/${r3}.mp3`;
             document.getElementById('t3-ans').innerHTML = topics[r3].t3;
 
-            const imgStart = r4 * 2; 
+            const imgStart = r4 * 2;
             document.getElementById('t4-theme').innerText = "Project Theme: " + topics[r4].title;
             document.getElementById('t4-img1').src = `images/ts4/${imgStart}.jpg`;
             document.getElementById('t4-img2').src = `images/ts4/${imgStart + 1}.jpg`;
